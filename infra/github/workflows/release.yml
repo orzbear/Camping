@@ -1,0 +1,139 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  JAVA_VERSION: '17'
+  NODE_VERSION: '18'
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+  build-and-push:
+    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Extract version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: Build and push API image
+      run: |
+        docker build -f docker/api.Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/outscout-api:${{ steps.get_version.outputs.VERSION }} -t ${{ secrets.DOCKER_USERNAME }}/outscout-api:latest backend/
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-api:${{ steps.get_version.outputs.VERSION }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-api:latest
+
+    - name: Build and push Ingest image
+      run: |
+        docker build -f docker/ingest.Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/outscout-ingest:${{ steps.get_version.outputs.VERSION }} -t ${{ secrets.DOCKER_USERNAME }}/outscout-ingest:latest backend/
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-ingest:${{ steps.get_version.outputs.VERSION }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-ingest:latest
+
+    - name: Build and push Planner image
+      run: |
+        docker build -f docker/planner.Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/outscout-planner:${{ steps.get_version.outputs.VERSION }} -t ${{ secrets.DOCKER_USERNAME }}/outscout-planner:latest backend/
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-planner:${{ steps.get_version.outputs.VERSION }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-planner:latest
+
+    - name: Build and push Notifier image
+      run: |
+        docker build -f docker/notifier.Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/outscout-notifier:${{ steps.get_version.outputs.VERSION }} -t ${{ secrets.DOCKER_USERNAME }}/outscout-notifier:latest backend/
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-notifier:${{ steps.get_version.outputs.VERSION }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-notifier:latest
+
+    - name: Build and push Web image
+      run: |
+        docker build -f docker/web.Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/outscout-web:${{ steps.get_version.outputs.VERSION }} -t ${{ secrets.DOCKER_USERNAME }}/outscout-web:latest frontend/
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-web:${{ steps.get_version.outputs.VERSION }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/outscout-web:latest
+
+  upload-assets:
+    name: Upload Release Assets
+    runs-on: ubuntu-latest
+    needs: [create-release, build-and-push]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Build backend JARs
+      run: |
+        cd backend
+        mvn clean package -DskipTests
+
+    - name: Build frontend
+      run: |
+        cd frontend
+        npm ci
+        npm run build
+
+    - name: Create deployment package
+      run: |
+        mkdir -p release-package
+        cp -r backend/api/target/*.jar release-package/
+        cp -r backend/ingest/target/*.jar release-package/
+        cp -r backend/planner/target/*.jar release-package/
+        cp -r backend/notifier/target/*.jar release-package/
+        cp -r frontend/dist release-package/
+        cp -r docker release-package/
+        cp -r seed release-package/
+        tar -czf outscout-release.tar.gz release-package/
+
+    - name: Upload release assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ./outscout-release.tar.gz
+        asset_name: outscout-release.tar.gz
+        asset_content_type: application/gzip

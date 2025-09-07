@@ -1,0 +1,71 @@
+name: Dependency Update
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Update Maven dependencies
+      run: |
+        cd backend
+        mvn versions:display-dependency-updates
+        mvn versions:display-plugin-updates
+
+    - name: Update npm dependencies
+      run: |
+        cd frontend
+        npm outdated
+
+    - name: Check for security vulnerabilities
+      run: |
+        cd backend
+        mvn org.owasp:dependency-check-maven:check
+        
+        cd ../frontend
+        npm audit
+
+    - name: Create Pull Request for updates
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'chore: update dependencies'
+        title: 'Automated dependency updates'
+        body: |
+          This PR contains automated dependency updates.
+          
+          ## Backend Dependencies
+          - Maven dependencies have been checked for updates
+          - Plugin versions have been reviewed
+          
+          ## Frontend Dependencies
+          - npm packages have been checked for updates
+          - Security vulnerabilities have been audited
+          
+          Please review the changes and test thoroughly before merging.
+        branch: dependency-updates
+        delete-branch: true

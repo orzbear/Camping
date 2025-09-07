@@ -1,0 +1,11 @@
+campsite_id,has_bbq,has_toilet,has_water,has_shelter,has_power
+1,true,true,true,false,false
+2,true,true,true,true,true
+3,false,true,true,false,false
+4,true,true,true,true,false
+5,true,true,true,true,false
+6,true,true,true,true,true
+7,true,true,true,true,true
+8,true,true,true,true,true
+9,false,true,false,false,false
+10,true,true,true,false,false
