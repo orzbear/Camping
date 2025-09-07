@@ -1,0 +1,102 @@
+[
+  {
+    "park_id": 1,
+    "severity": "high",
+    "title": "Fire Danger - Total Fire Ban",
+    "summary": "Extreme fire danger conditions. All campfires and BBQs are prohibited. Exercise extreme caution.",
+    "starts_at": "2024-01-15T00:00:00",
+    "ends_at": "2024-01-17T23:59:59",
+    "source": "NSW Rural Fire Service",
+    "url": "https://www.rfs.nsw.gov.au/fire-information/fdr-and-tobans"
+  },
+  {
+    "park_id": 2,
+    "severity": "medium",
+    "title": "Track Closure - Great Ocean Walk",
+    "summary": "Section 3 of the Great Ocean Walk is temporarily closed due to maintenance. Alternative routes available.",
+    "starts_at": "2024-01-10T00:00:00",
+    "ends_at": "2024-01-25T23:59:59",
+    "source": "Parks Victoria",
+    "url": "https://www.parks.vic.gov.au/places-to-see/parks/great-otway-national-park"
+  },
+  {
+    "park_id": 3,
+    "severity": "low",
+    "title": "Wildlife Activity Notice",
+    "summary": "Increased koala activity in the Green Mountains area. Please drive carefully and keep a safe distance.",
+    "starts_at": "2024-01-12T00:00:00",
+    "ends_at": "2024-01-30T23:59:59",
+    "source": "Queensland Parks and Wildlife Service",
+    "url": null
+  },
+  {
+    "park_id": 4,
+    "severity": "medium",
+    "title": "Weather Warning - Extreme Heat",
+    "summary": "Temperatures expected to reach 45°C. Ensure adequate water supplies and avoid strenuous activities during peak heat.",
+    "starts_at": "2024-01-18T00:00:00",
+    "ends_at": "2024-01-20T23:59:59",
+    "source": "Bureau of Meteorology",
+    "url": "http://www.bom.gov.au/sa/warnings/"
+  },
+  {
+    "park_id": 5,
+    "severity": "low",
+    "title": "Seasonal Wildflower Display",
+    "summary": "Peak wildflower season is now underway. Best viewing areas are marked with interpretive signs.",
+    "starts_at": "2024-01-01T00:00:00",
+    "ends_at": "2024-03-31T23:59:59",
+    "source": "Department of Biodiversity Conservation and Attractions",
+    "url": "https://parks.dpaw.wa.gov.au/park/stirling-range"
+  },
+  {
+    "park_id": 6,
+    "severity": "high",
+    "title": "Avalanche Risk - Overland Track",
+    "summary": "High avalanche risk on the Overland Track. Only experienced hikers with appropriate equipment should proceed.",
+    "starts_at": "2024-01-14T00:00:00",
+    "ends_at": "2024-01-21T23:59:59",
+    "source": "Tasmania Parks and Wildlife Service",
+    "url": "https://parks.tas.gov.au/explore-our-parks/cradle-mountain"
+  },
+  {
+    "park_id": 7,
+    "severity": "medium",
+    "title": "Wet Season Access Restrictions",
+    "summary": "Some roads and tracks may be impassable due to wet season conditions. Check conditions before travel.",
+    "starts_at": "2024-01-01T00:00:00",
+    "ends_at": "2024-04-30T23:59:59",
+    "source": "Parks Australia",
+    "url": "https://parksaustralia.gov.au/kakadu/"
+  },
+  {
+    "park_id": 8,
+    "severity": "low",
+    "title": "Maintenance Work - Namadgi Visitor Centre",
+    "summary": "Visitor centre will be closed for maintenance on weekends during January. Information available at ranger station.",
+    "starts_at": "2024-01-06T00:00:00",
+    "ends_at": "2024-01-28T23:59:59",
+    "source": "ACT Parks and Conservation Service",
+    "url": "https://www.environment.act.gov.au/parks-conservation/parks-and-reserves/namadgi-national-park"
+  },
+  {
+    "park_id": 9,
+    "severity": "medium",
+    "title": "Rockfall Risk - Three Sisters Area",
+    "summary": "Increased rockfall risk in the Three Sisters area. Stay on designated paths and avoid cliff edges.",
+    "starts_at": "2024-01-16T00:00:00",
+    "ends_at": "2024-01-22T23:59:59",
+    "source": "NSW National Parks and Wildlife Service",
+    "url": "https://www.nationalparks.nsw.gov.au/visit-a-park/parks/blue-mountains-national-park"
+  },
+  {
+    "park_id": 10,
+    "severity": "low",
+    "title": "Cultural Site Access",
+    "summary": "Some Aboriginal cultural sites are temporarily closed for cultural ceremonies. Respect all signage and restrictions.",
+    "starts_at": "2024-01-20T00:00:00",
+    "ends_at": "2024-01-22T23:59:59",
+    "source": "Parks Victoria",
+    "url": "https://www.parks.vic.gov.au/places-to-see/parks/grampians-national-park"
+  }
+]

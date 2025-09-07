@@ -1,0 +1,11 @@
+id,park_id,name,lat,lon,description,fee_aud,pet_allowed,bookable
+1,1,Werrong Beach Campsite,-34.1234,151.0567,Beachside camping with stunning ocean views and basic facilities.,25.00,false,true
+2,1,Bundeena Drive Campsite,-34.0987,151.1234,Family-friendly campsite with BBQ facilities and toilets.,30.00,true,true
+3,2,Blanket Bay Campsite,-38.7654,143.4567,Secluded coastal camping with access to hiking trails.,20.00,false,true
+4,2,Cape Otway Lighthouse Campsite,-38.8567,143.5123,Historic lighthouse setting with panoramic views.,35.00,true,true
+5,3,Green Mountains Campsite,-28.2345,153.1234,Rainforest camping with walking tracks and wildlife.,28.00,false,true
+6,3,Binna Burra Campsite,-28.1987,153.1876,Mountain camping with spectacular valley views.,32.00,true,true
+7,4,Wilpena Pound Campsite,-31.4567,138.6789,Iconic outback camping in the heart of the Flinders Ranges.,40.00,false,true
+8,4,Rawnsley Park Campsite,-31.4123,138.7123,Working sheep station with modern facilities.,45.00,true,true
+9,5,Bluff Knoll Campsite,-34.3456,118.2345,High altitude camping with challenging hiking opportunities.,22.00,false,true
+10,5,Chester Pass Campsite,-34.2987,118.1876,Valley camping with access to wildflower viewing.,18.00,true,true
