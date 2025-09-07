@@ -2,19 +2,21 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy Maven files
-COPY backend/pom.xml .
-COPY backend/notifier/pom.xml ./notifier/
+# Copy all Maven files first to resolve dependencies
+COPY pom.xml .
+COPY api/pom.xml api/
+COPY ingest/pom.xml ingest/
+COPY planner/pom.xml planner/
+COPY notifier/pom.xml notifier/
 
 # Download dependencies
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 RUN mvn dependency:go-offline -B
 
-# Copy source code
-COPY backend/notifier/src ./notifier/src
-COPY backend/pom.xml .
+# Copy source code for the specific service
+COPY notifier/src ./notifier/src
 
-# Build the application
+# Build only the 'notifier' module
 RUN mvn clean package -DskipTests -pl notifier
 
 # Run the application

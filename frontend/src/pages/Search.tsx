@@ -23,7 +23,7 @@ export const Search: React.FC = () => {
       const response = await spotApi.search({
         query: query || undefined,
         region: region || undefined,
-        petAllowed: petAllowed,
+        petAllowed: petAllowed === null ? undefined : petAllowed, // This is the fix
         page: 0,
         size: 20,
       });
