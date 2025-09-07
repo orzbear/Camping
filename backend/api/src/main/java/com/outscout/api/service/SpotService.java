@@ -59,10 +59,16 @@ public class SpotService {
         
         // Convert amenities
         if (campsite.getAmenities() != null) {
-            List<String> amenities = List.of();
-            // TODO: Convert amenities to list
-            summary.setAmenities(amenities);
-        }
+                List<String> amenities = new java.util.ArrayList<>();
+                if (campsite.getAmenities().getHasBbq()) amenities.add("BBQ");
+                if (campsite.getAmenities().getHasToilet()) amenities.add("Toilet");
+                if (campsite.getAmenities().getHasWater()) amenities.add("Water");
+                if (campsite.getAmenities().getHasShelter()) amenities.add("Shelter");
+                if (campsite.getAmenities().getHasPower()) amenities.add("Power");
+                summary.setAmenities(amenities);
+            } else {
+                summary.setAmenities(new java.util.ArrayList<>());
+            }
         
         // Set fee bucket
         if (campsite.getFeeAud() != null) {
@@ -100,10 +106,16 @@ public class SpotService {
         
         // Convert amenities
         if (campsite.getAmenities() != null) {
-            List<String> amenities = List.of();
-            // TODO: Convert amenities to list
-            details.setAmenities(amenities);
-        }
+                List<String> amenities = new java.util.ArrayList<>();
+                if (campsite.getAmenities().getHasBbq()) amenities.add("BBQ");
+                if (campsite.getAmenities().getHasToilet()) amenities.add("Toilet");
+                if (campsite.getAmenities().getHasWater()) amenities.add("Water");
+                if (campsite.getAmenities().getHasShelter()) amenities.add("Shelter");
+                if (campsite.getAmenities().getHasPower()) amenities.add("Power");
+                details.setAmenities(amenities);
+            } else {
+                details.setAmenities(new java.util.ArrayList<>());
+            }
         
         return details;
     }

@@ -2,19 +2,21 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy Maven files
-COPY backend/pom.xml .
-COPY backend/api/pom.xml ./api/
+# Copy all Maven files first to resolve dependencies
+COPY pom.xml .
+COPY api/pom.xml api/
+COPY ingest/pom.xml ingest/
+COPY planner/pom.xml planner/
+COPY notifier/pom.xml notifier/
 
 # Download dependencies
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 RUN mvn dependency:go-offline -B
 
-# Copy source code
-COPY backend/api/src ./api/src
-COPY backend/pom.xml .
+# Copy source code for the specific service
+COPY api/src ./api/src
 
-# Build the application
+# Build only the 'api' module
 RUN mvn clean package -DskipTests -pl api
 
 # Run the application

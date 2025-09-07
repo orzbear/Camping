@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { spotApi } from '../lib/api';
 import { SpotDetails } from '../lib/types';
-import { MapPin, DollarSign, PawPrint, ExternalLink, Calendar, Users } from 'lucide-react';
+import { DollarSign, PawPrint, ExternalLink, Calendar, MapPin } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 
 export const Spot: React.FC = () => {

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Database
   mysql:
@@ -78,13 +76,19 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - outscout-network
+    healthcheck:
+      test: ['CMD', 'bash', '-c', "echo 'imok' | nc localhost 2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Kafka
   kafka:
     image: confluentinc/cp-kafka:7.4.0
     container_name: outscout-kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "9092:9092"
     environment:
